@@ -10,7 +10,6 @@ import { EventEmitter } from "eventemitter3"
 import NodeWebSocket, { Server as WebSocketServer } from "ws"
 import { v1 as uuidv1 } from "uuid"
 import url from "url"
-import CircularJSON from "circular-json"
 
 import * as utils from "./utils"
 
@@ -282,7 +281,7 @@ export default class Server extends EventEmitter
                 if (!socket)
                     continue
 
-                socket.send(CircularJSON.stringify({
+                socket.send(JSON.stringify({
                     notification: name,
                     params: params || null
                 }))
@@ -356,7 +355,7 @@ export default class Server extends EventEmitter
 
                 for (let i = 0, id; id = socket_ids[i]; ++i)
                 {
-                    self.namespaces[name].clients.get(id).send(CircularJSON.stringify({
+                    self.namespaces[name].clients.get(id).send(JSON.stringify({
                         notification: event,
                         params: params || []
                     }))
@@ -515,7 +514,7 @@ export default class Server extends EventEmitter
                 if (!responses.length)
                     return
 
-                return socket.send(CircularJSON.stringify(responses), msg_options)
+                return socket.send(JSON.stringify(responses), msg_options)
             }
 
             const response = await this._runMethod(parsedData, socket._id, ns)
@@ -523,7 +522,7 @@ export default class Server extends EventEmitter
             if (!response)
                 return
 
-            return socket.send(CircularJSON.stringify(response), msg_options)
+            return socket.send(JSON.stringify(response), msg_options)
         })
     }
 

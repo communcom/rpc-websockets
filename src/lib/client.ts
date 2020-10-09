@@ -9,7 +9,6 @@
 import NodeWebSocket from "ws"
 // @ts-ignore
 import { EventEmitter } from "eventemitter3"
-import CircularJSON from "circular-json"
 import {
     ICommonWebSocket,
     IWSClientAdditionalOptions,
@@ -302,7 +301,7 @@ export default class CommonClient extends EventEmitter
             if (message instanceof ArrayBuffer)
                 message = Buffer.from(message).toString()
 
-            try { message = CircularJSON.parse(message) }
+            try { message = JSON.parse(message) }
 
             catch (error) { return }
 
